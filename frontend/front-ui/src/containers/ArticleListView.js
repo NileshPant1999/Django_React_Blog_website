@@ -15,7 +15,7 @@ function ArticleList() {
         }
         fetchData();
 
-    }, []);
+    }, [articles]);
 
     return (
         <div>
