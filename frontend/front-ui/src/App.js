@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import BaseRouter from './routes'
+import { connect } from 'react-redux';
+import BaseRouter from './routes';
 import 'antd/dist/antd.css';
-import { connect } from 'react-redux'
-import * as actions from './store/actions/auth'
+import * as actions from './store/actions/auth';
 
+import CustomLayout from './containers/Layout';
 
-import CustomLayout from './containers/Layout'
-
-class App extends React.Component {
+class App extends Component {
 
   componentDidMount() {
     this.props.onTryAutoSignup();
@@ -18,8 +17,8 @@ class App extends React.Component {
     return (
       <div>
         <Router>
-          <CustomLayout {...this.props} >
-            <BaseRouter />
+          <CustomLayout {...this.props}>
+              <BaseRouter />
           </CustomLayout>
         </Router>
       </div>

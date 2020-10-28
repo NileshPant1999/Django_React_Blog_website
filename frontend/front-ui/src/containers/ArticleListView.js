@@ -1,31 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import Article from '../components/Article';
-import axios from 'axios';
-import CustomForm from '../components/Form'
+import React from "react";
+import axios from "axios";
+import Articles from "../components/Article";
+import CustomForm from "../components/Form";
 
-function ArticleList() {
 
-    const [articles, setArticles] = useState([])
+class ArticleList extends React.Component {
+  state = {
+    articles: []
+  };
 
-    useEffect(() => {
-        async function fetchData() {
-            // You can await here
-            const response = await axios("http://127.0.0.1:8000/api/");
-            setArticles(response.data)
-        }
-        fetchData();
+  fetchArticles = () => {
+    axios.get("http://127.0.0.1:8000/api/").then(res => {
+      this.setState({
+        articles: res.data
+      });
+    });
+  }
 
-    }, [articles]);
+  componentDidMount() {
+    this.fetchArticles();
+  }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.token) {
+      this.fetchArticles();      
+    }
+  }
+
+  render() {
     return (
-        <div>
-            <Article data={articles} />
-            <br />
-            <h2> Create an Article</h2>
-            <CustomForm requestType='post' btnText='update' articleID={null} />
-        </div>
-    )
+      <div>
+        <Articles data={this.state.articles} /> <br />
+        <h2> Create an article </h2>
+        <CustomForm requestType="post" articleID={null} btnText="Create" />
+      </div>
+    );
+  }
 }
 
-export default ArticleList
-
+export default ArticleList;
